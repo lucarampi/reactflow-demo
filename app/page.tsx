@@ -1,4 +1,5 @@
 "use client";
+import RadioButton from "@/components/RadioButton";
 import ToggleButton from "@/components/ToggleButton";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
@@ -68,6 +69,9 @@ const initialEdges = [
 export default function App() {
   const [isMinimapEnabled, setIsMinimapEnabled] = useState(false);
   const [isControlEnabled, setIsControlEnabled] = useState(false);
+  const [selectedBackgroundVariant, setSelectedBackgroundVariant] = useState(
+    BackgroundVariant.Dots
+  );
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
@@ -122,22 +126,62 @@ export default function App() {
           )}
           <NodeToolbar />
           <Panel
-            className="bg-white pt-2 pb-4 px-4 rounded-lg border-2 shadow-xl border-blue-500 flex flex-col gap-2 "
+            className="bg-transparent flex flex-col gap-6 select-none"
             position="top-right"
           >
-            <div className="font-semibold mb-1">Options</div>
-            <ToggleButton
-              checkedValue={isMinimapEnabled}
-              setCheckedValue={setIsMinimapEnabled}
-              label="Minimap"
-            />
-            <ToggleButton
-              checkedValue={isControlEnabled}
-              setCheckedValue={setIsControlEnabled}
-              label="Controls"
-            />
+            <div className="bg-white pt-2 pb-4 px-4 rounded-lg border-2 shadow-xl border-blue-500 flex flex-col gap-2 ">
+              <div className="font-semibold mb-1">Plugins</div>
+              <ToggleButton
+                checkedValue={isMinimapEnabled}
+                setCheckedValue={setIsMinimapEnabled}
+                label="Minimap"
+              />
+              <ToggleButton
+                checkedValue={isControlEnabled}
+                setCheckedValue={setIsControlEnabled}
+                label="Controls"
+              />
+            </div>
+            <div className="bg-white pt-2 pb-4 px-4 rounded-lg border-2 shadow-xl border-blue-500 flex flex-col gap-2 ">
+              <div className="font-semibold mb-1">Background</div>
+              <RadioButton
+                label="Dots"
+                checkedValue={selectedBackgroundVariant}
+                groupName="BackgroundVariant"
+                setCheckedValue={setSelectedBackgroundVariant}
+                value={BackgroundVariant.Dots}
+              />
+              <RadioButton
+                label="Cross"
+                checkedValue={selectedBackgroundVariant}
+                groupName="BackgroundVariant"
+                setCheckedValue={setSelectedBackgroundVariant}
+                value={BackgroundVariant.Cross}
+              />
+              <RadioButton
+                label="Lines"
+                checkedValue={selectedBackgroundVariant}
+                groupName="BackgroundVariant"
+                setCheckedValue={setSelectedBackgroundVariant}
+                value={BackgroundVariant.Lines}
+              />
+            </div>
           </Panel>
-          <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+
+          <Background
+            variant={selectedBackgroundVariant}
+            gap={12}
+            size={
+              selectedBackgroundVariant === BackgroundVariant.Dots
+                ? 1.5
+                : undefined
+            }
+            color={
+              selectedBackgroundVariant === BackgroundVariant.Dots
+                ? "gray"
+                : "#ccc"
+            }
+          />
         </ReactFlow>
       </div>
     </div>
