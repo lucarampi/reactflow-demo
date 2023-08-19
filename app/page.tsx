@@ -19,15 +19,11 @@ import ReactFlow, {
   DefaultEdgeOptions,
   Panel,
   GetMiniMapNodeAttribute,
+  NodeToolbar,
+  Node,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-
-const initialNodes = [
-  { id: "1", position: { x: 0, y: 0 }, data: { label: "1" } },
-  { id: "2", position: { x: 0, y: 100 }, data: { label: "2" } },
-];
-const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
 
 const nodeColor = (node: any) => {
   switch (node.type) {
@@ -40,29 +36,31 @@ const nodeColor = (node: any) => {
   }
 };
 
-const nodes = [
+const initialNodes: Node[] = [
   {
     id: "1",
     type: "input",
     data: { label: "Input Node" },
     position: { x: 250, y: 25 },
+    style: { backgroundColor: "#6ede87", color: "white" },
   },
 
   {
     id: "2",
-    // you can also pass a React component as a label
     data: { label: <div>Default Node</div> },
     position: { x: 100, y: 125 },
+    style: { backgroundColor: "#ff0072", color: "white" },
   },
   {
     id: "3",
     type: "output",
     data: { label: "Output Node" },
     position: { x: 250, y: 250 },
+    style: { backgroundColor: "#6865A5", color: "white" },
   },
 ];
 
-const edges = [
+const initialEdges = [
   { id: "e1-2", source: "1", target: "2" },
   { id: "e2-3", source: "2", target: "3", animated: true },
 ];
@@ -112,7 +110,6 @@ export default function App() {
           defaultEdgeOptions={defaultEdgeOptions}
           className="bg-slate-100"
         >
-          <div className="w-32 h-64 bg-white  "></div>
           {isControlEnabled && <Controls />}
 
           {isMinimapEnabled && (
@@ -123,8 +120,9 @@ export default function App() {
               pannable
             />
           )}
+          <NodeToolbar />
           <Panel
-            className="bg-white py-2 px-4 rounded-md border-2 shadow-xl border-blue-600 flex flex-col gap-2 "
+            className="bg-white pt-2 pb-4 px-4 rounded-lg border-2 shadow-xl border-blue-500 flex flex-col gap-2 "
             position="top-right"
           >
             <div className="font-semibold mb-1">Options</div>
